@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Helpers\AuthHelper;
 use App\Helpers\FunctionHelper;
 use App\Helpers\ResponseHelper;
 use Illuminate\Http\JsonResponse;
@@ -36,27 +35,14 @@ class RegistroEvento extends BaseModel
     public static function registrar(array $input): JsonResponse
     {
         try {
-            self::salvar($input);
+            $input['valor'] = FunctionHelper::encodeJson($input['valor']);
+            $input["idEntidade"] = !empty($input["idEntidade"]) ? substr($input["idEntidade"], 0, 36) : $input["idEntidade"];
+            self::saveOrUpdate($input);
             return ResponseHelper::success();
         } catch (\Exception $e) {
             Log::error("a", [$e->getMessage()]);
             return ResponseHelper::exception($e);
         }
-    }
-
-    private static function salvar(array &$input): void
-    {
-        $input['valor'] = FunctionHelper::encodeJson($input['valor']);
-
-        if (!empty($input["idUsuario"])) {
-            $input['observacao'] = "Registro com usuário vinculado!" . FunctionHelper::encodeJson($input);
-            $input['acao'] = "ERROR";
-            $input['pagina'] = "ERROR";
-        }
-
-        if (!empty($input["idEntidade"]) && strlen($input["idEntidade"]) > 36) $input["idEntidade"] = substr($input["idEntidade"], 0, 36);
-
-        self::saveOrUpdate($input);
     }
 
 }
