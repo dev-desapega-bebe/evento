@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Log;
 
 class RegistroEvento extends BaseModel
 {
-
     protected $table = "registroEvento";
     protected $fillable = [
         "id",
@@ -44,5 +43,4 @@ class RegistroEvento extends BaseModel
             return ResponseHelper::exception($e);
         }
     }
-
 }

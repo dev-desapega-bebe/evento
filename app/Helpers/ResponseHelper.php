@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace App\Helpers;
 
+use App\Models\Enums\MsgApplication;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 
 final class ResponseHelper
 {
-
     private static int $status = 200;
 
-    public static function success(string $msg = MsgApplicationHelper::SUCCESS): JsonResponse
+    public static function success(string $msg = MsgApplication::SUCCESS->name): JsonResponse
     {
         return self::echo(["success" => $msg]);
     }
 
-    public static function error(string $msg = MsgApplicationHelper::ERROR): JsonResponse
+    public static function error(string $msg = MsgApplication::ERROR->name): JsonResponse
     {
         self::$status = 400;
         return self::echo(["error" => $msg]);
@@ -45,7 +45,6 @@ final class ResponseHelper
     private static function exceptionMessageFilter(mixed $ex): string
     {
         Log::error(__CLASS__ . ":" . __METHOD__, $ex);
-        return MsgApplicationHelper::ERROR;
+        return MsgApplication::ERROR->name;
     }
-
 }

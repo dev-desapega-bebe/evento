@@ -11,7 +11,6 @@ use ReflectionClass;
 
 final class FunctionHelper
 {
-
     public static function dateTimeNow(): string
     {
         $datetime = new DateTime();
@@ -65,5 +64,4 @@ final class FunctionHelper
 
         $input = $newArray;
     }
-
 }

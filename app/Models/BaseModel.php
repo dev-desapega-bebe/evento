@@ -11,7 +11,6 @@ use Illuminate\Support\Str;
 
 abstract class BaseModel extends Model
 {
-
     protected $hidden = [];
     public $timestamps = false;
     protected $keyType = "string";
@@ -92,5 +91,4 @@ abstract class BaseModel extends Model
     {
         $input[$dateCollumn] = FunctionHelper::dateTimeNow();
     }
-
 }
