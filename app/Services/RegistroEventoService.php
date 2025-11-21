@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Exceptions\RuleException;
 use App\Helpers\FunctionHelper;
 use App\Repositories\Enums\ActionPageEventAccessEnum;
 use App\Repositories\Enums\EntityEventAccessEnum;
@@ -25,13 +26,13 @@ class RegistroEventoService
     try {
       $this->validarValoresDoInput($input);
       $this->repository->saveOrUpdate($input);
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
       Log::error("Erro ao gravar registro evento", [
         "code" => $e->getCode(),
         "message" => $e->getMessage(),
         "trace" => $e->getTrace(),
       ]);
-      throw  $e;
+      throw new RuleException($e->getMessage(), (int)$e->getCode());
     }
   }
 
